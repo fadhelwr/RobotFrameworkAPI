@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 7.1 (Python 3.11.9 on win32)" generated="2024-09-19T07:46:27.031508" rpa="false" schemaversion="5">
+<suite id="s1" name="PostCreateUser" source="E:\QA\Automation\RobotAPI\Tests\PostCreateUser.robot">
+<test id="s1-t1" name="Create User" line="12">
+<kw name="Create Session" owner="RequestsLibrary">
+<msg time="2024-09-19T07:46:27.531377" level="INFO">Creating Session using : alias=reqres, url=https://reqres.in/api, headers={},                     cookies={}, auth=None, timeout=None, proxies=None, verify=False,                     debug=0 </msg>
+<arg>reqres</arg>
+<arg>${BASE_URL}</arg>
+<arg>verify=False</arg>
+<doc>Create Session: create a HTTP session to a server</doc>
+<status status="PASS" start="2024-09-19T07:46:27.531377" elapsed="0.000000"/>
+</kw>
+<kw name="Create User Payload">
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2024-09-19T07:46:27.532374" level="INFO">&amp;{payload} = { name=John | job=Developer }</msg>
+<var>&amp;{payload}</var>
+<arg>name=${NAME}</arg>
+<arg>job=${JOB}</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<status status="PASS" start="2024-09-19T07:46:27.532374" elapsed="0.000000"/>
+</kw>
+<return>
+<value>${payload}</value>
+<status status="PASS" start="2024-09-19T07:46:27.532374" elapsed="0.000000"/>
+</return>
+<msg time="2024-09-19T07:46:27.532374" level="INFO">${payload} = {'name': 'John', 'job': 'Developer'}</msg>
+<var>${payload}</var>
+<status status="PASS" start="2024-09-19T07:46:27.532374" elapsed="0.000000"/>
+</kw>
+<kw name="POST On Session" owner="RequestsLibrary">
+<msg time="2024-09-19T07:46:28.026490" level="INFO">POST Request : url=https://reqres.in/api/users 
+ path_url=/api/users 
+ headers={'User-Agent': 'python-requests/2.32.3', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Length': '36', 'Content-Type': 'application/json'} 
+ body=b'{"name": "John", "job": "Developer"}' 
+ </msg>
+<msg time="2024-09-19T07:46:28.027502" level="INFO">POST Response : url=https://reqres.in/api/users 
+ status=201, reason=Created 
+ headers={'Date': 'Thu, 19 Sep 2024 00:46:27 GMT', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '83', 'Connection': 'keep-alive', 'Report-To': '{"group":"heroku-nel","max_age":3600,"endpoints":[{"url":"https://nel.heroku.com/reports?ts=1726706787&amp;sid=c4c9725f-1ab0-44d8-820f-430df2718e11&amp;s=qINAgS0MErflKk3Qk0tbK2Vpobfu5J77M9cD52mqMj4%3D"}]}', 'Reporting-Endpoints': 'heroku-nel=https://nel.heroku.com/reports?ts=1726706787&amp;sid=c4c9725f-1ab0-44d8-820f-430df2718e11&amp;s=qINAgS0MErflKk3Qk0tbK2Vpobfu5J77M9cD52mqMj4%3D', 'Nel': '{"report_to":"heroku-nel","max_age":3600,"success_fraction":0.005,"failure_fraction":0.05,"response_headers":["Via"]}', 'X-Powered-By': 'Express', 'Access-Control-Allow-Origin': '*', 'Etag': 'W/"53-dnkNyzPWHY/NxLBdTVUqjtYH15s"', 'Via': '1.1 vegur', 'CF-Cache-Status': 'DYNAMIC', 'Server': 'cloudflare', 'CF-RAY': '8c558f0e18bb8216-SIN'} 
+ body={"name":"John","job":"Developer","id":"503","createdAt":"2024-09-19T00:46:27.831Z"} 
+ </msg>
+<msg time="2024-09-19T07:46:28.027502" level="INFO">C:\Program Files\Python311\Lib\site-packages\urllib3\connectionpool.py:1099: InsecureRequestWarning: Unverified HTTPS request is being made to host 'reqres.in'. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.io/en/latest/advanced-usage.html#tls-warnings
+  warnings.warn(</msg>
+<msg time="2024-09-19T07:46:28.028512" level="INFO">${response} = &lt;Response [201]&gt;</msg>
+<var>${response}</var>
+<arg>reqres</arg>
+<arg>${CREATE_USER_URL}</arg>
+<arg>json=${payload}</arg>
+<doc>Sends a POST request on a previously created HTTP Session.</doc>
+<status status="PASS" start="2024-09-19T07:46:27.533371" elapsed="0.495141"/>
+</kw>
+<kw name="Should Be Equal As Strings" owner="BuiltIn">
+<msg time="2024-09-19T07:46:28.030841" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<arg>${response.status_code}</arg>
+<arg>201</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" start="2024-09-19T07:46:28.029514" elapsed="0.002344"/>
+</kw>
+<kw name="Validate Created User">
+<kw name="Should Be Equal As Strings" owner="BuiltIn">
+<arg>${response_json['name']}</arg>
+<arg>${expected_name}</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" start="2024-09-19T07:46:28.033850" elapsed="0.000000"/>
+</kw>
+<kw name="Should Be Equal As Strings" owner="BuiltIn">
+<arg>${response_json['job']}</arg>
+<arg>${expected_job}</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" start="2024-09-19T07:46:28.034852" elapsed="0.000000"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2024-09-19T07:46:28.034852" level="INFO">Created user validated: {'name': 'John', 'job': 'Developer', 'id': '503', 'createdAt': '2024-09-19T00:46:27.831Z'}</msg>
+<arg>Created user validated: ${response_json}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2024-09-19T07:46:28.034852" elapsed="0.000000"/>
+</kw>
+<arg>${response.json()}</arg>
+<arg>${NAME}</arg>
+<arg>${JOB}</arg>
+<status status="PASS" start="2024-09-19T07:46:28.032852" elapsed="0.002000"/>
+</kw>
+<doc>This test case creates a new user and validates the response.</doc>
+<tag>api</tag>
+<tag>user</tag>
+<status status="PASS" start="2024-09-19T07:46:27.530379" elapsed="0.505292"/>
+</test>
+<status status="PASS" start="2024-09-19T07:46:27.032505" elapsed="1.003549"/>
+</suite>
+<statistics>
+<total>
+<stat pass="1" fail="0" skip="0">All Tests</stat>
+</total>
+<tag>
+<stat pass="1" fail="0" skip="0">api</stat>
+<stat pass="1" fail="0" skip="0">user</stat>
+</tag>
+<suite>
+<stat pass="1" fail="0" skip="0" id="s1" name="PostCreateUser">PostCreateUser</stat>
+</suite>
+</statistics>
+<errors>
+<msg time="2024-09-19T07:46:27.028283" level="WARN">Error in file 'E:\QA\Automation\RobotAPI\Tests\PostCreateUser.robot' on line 24: The '[Return]' setting is deprecated. Use the 'RETURN' statement instead.</msg>
+</errors>
+</robot>
